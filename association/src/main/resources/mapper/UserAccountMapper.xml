@@ -32,6 +32,6 @@
   </select>
   
   <select id="login" resultMap="BaseResultMap">
-  	SELECT * FROM community.user_account where name = #{userLoginDto.name} or nick_name = #{userLoginDto.name} or mobile_phone = #{userLoginDto.name};
+  	SELECT * FROM community.user_account where password = #{userLoginDto.password} and (name = #{userLoginDto.userName} or nick_name = #{userLoginDto.userName} or mobile_phone = #{userLoginDto.userName});
   </select>
 </mapper>
