@@ -31,4 +31,7 @@
   	SELECT count(1) FROM community.user_account where name = #{name} or nick_name = #{name};
   </select>
   
+  <select id="login" resultMap="BaseResultMap">
+  	SELECT * FROM community.user_account where name = #{userLoginDto.name} or nick_name = #{userLoginDto.name} or mobile_phone = #{userLoginDto.name};
+  </select>
 </mapper>

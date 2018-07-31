@@ -1,6 +1,7 @@
 package cn.songlin.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.songlin.annotation.Monitor;
 import cn.songlin.dto.UserAccountDto;
+import cn.songlin.dto.UserLoginDto;
+import cn.songlin.entity.UserAccount;
 import cn.songlin.service.UserAaccountService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,20 +36,20 @@ public class UserAccountController {
 		userAaccountService.register(userAccountDto);
 		return new ResponseEntity<>(null, HttpStatus.OK);
 	}
-//
-//	@PostMapping("login")
-//	@Monitor
-//	@ApiOperation(value = "用户登录")
-//	public ResponseEntity<String> login(UserLoginDto userLoginDto) {
-//		UserAccount userAccount = userAaccountService.login(userLoginDto);
-//		if (userAccount != null) {// 登陆成功
-//			// 写入缓存
-//			HttpSession session = request.getSession();
-//			session.setMaxInactiveInterval(120);// 设置30s
-//			session.setAttribute("sessionId", userAccount);
-//			return new ResponseEntity<>("1", HttpStatus.OK);
-//		}
-//		return new ResponseEntity<>("0", HttpStatus.OK);
-//	}
+
+	@PostMapping("login")
+	@Monitor
+	@ApiOperation(value = "用户登录")
+	public ResponseEntity<String> login(UserLoginDto userLoginDto) {
+		UserAccount userAccount = userAaccountService.login(userLoginDto);
+		if (userAccount != null) {// 登陆成功
+			// 写入缓存
+			HttpSession session = request.getSession();
+			session.setMaxInactiveInterval(120);// 设置30s
+			session.setAttribute("sessionId", userAccount);
+			return new ResponseEntity<>("1", HttpStatus.OK);
+		}
+		return new ResponseEntity<>("0", HttpStatus.OK);
+	}
 
 }

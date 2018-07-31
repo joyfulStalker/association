@@ -1,11 +1,15 @@
 package cn.songlin.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "user_account")
-public class UserAccount {
-    /**
+public class UserAccount implements Serializable{
+    
+	private static final long serialVersionUID = -8868821553907742920L;
+
+	/**
      * 主键id
      */
     @Id
