@@ -31,7 +31,7 @@
 			targetPackage="${targetMapperPackage}"
 			targetProject="${targetJavaProject}" type="XMLMAPPER" />
 
-		<table tableName="user_account">
+		<table tableName="sensitive_words">
 			<generatedKey column="id" sqlStatement="Mysql"
 				identity="true" />
 		</table>

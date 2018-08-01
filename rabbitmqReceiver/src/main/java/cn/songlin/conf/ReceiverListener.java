@@ -23,9 +23,4 @@ public class ReceiverListener {
 		userLogMapper.insertSelective(tracklog);
 		System.out.println("处理访问记录结束");
 	}
-
-	@RabbitListener(queues = "message") // 监听器监听指定的Queue
-	public void process(String str) {
-		System.out.println("接收message:" + str);
-	}
 }
