@@ -6,10 +6,15 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+import com.alibaba.druid.support.json.JSONUtils;
+import com.alibaba.fastjson.JSONObject;
 
 import cn.songlin.annotation.Access;
 import cn.songlin.entity.UserAccount;
@@ -19,13 +24,14 @@ import cn.songlin.utils.StringUtils;
 
 // 自定义一个权限拦截器, 继承HandlerInterceptorAdapter类
 public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
+	
 
 	// 在调用方法之前执行拦截
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		String servletPath = request.getServletPath();
-		if (servletPath != null && servletPath.contains("swagger")) {//过滤swagger的请求
+		if (servletPath != null && servletPath.contains("swagger")) {// 过滤swagger的请求
 			return true;
 		}
 
@@ -33,8 +39,8 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 
 		BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
 		UserLogMapper userLogMapper = (UserLogMapper) factory.getBean("userLogMapper");
-
-		//访问足迹记录
+		AmqpTemplate template = (AmqpTemplate)factory.getBean("rabbitTemplate");;
+		// 访问足迹记录
 		UserLog userLog = new UserLog();
 		userLog.setLogDataTime(new Date());
 		userLog.setLogIp(StringUtils.getClientIp(request));
@@ -43,9 +49,12 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 			userLog.setLogUserid(userAccount.getUserId().toString());
 			userLog.setLogUsername(userAccount.getName());
 		}
-		userLogMapper.insertSelective(userLog);
-		
-		//access权限验证
+		// 记录采用mq转发的形式来做
+		// userLogMapper.insertSelective(userLog);
+		String userLogString = JSONObject.toJSONString(userLog);
+		template.convertAndSend("track", userLogString);
+
+		// access权限验证
 		if (handler instanceof HandlerMethod) {// 请求是handlermethod进行强转
 			// 将handler强转为HandlerMethod, 前面已经证实这个handler就是HandlerMethod
 			HandlerMethod handlerMethod = (HandlerMethod) handler;

@@ -1,8 +1,6 @@
 server:
-  port: 8090
+  port: 8091
 spring:
-  aop:
-    auto: true
   rabbitmq:
     host: 192.168.20.100
     virtual-host: /asso
@@ -14,16 +12,6 @@ spring:
     url: jdbc:mysql://localhost:3306/community?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: root
-  resources:
-    static-locations:
-    - classpath:/static/html/
-  redis:
-    host: localhost
-    port: 6379
-mybatis:
-  configuration:
-    auto-mapping-behavior: full
-  mapper-locations: classpath:/mapper/*Mapper.xml
 logging:
   level:
     cn.songlin.mapper : debug
