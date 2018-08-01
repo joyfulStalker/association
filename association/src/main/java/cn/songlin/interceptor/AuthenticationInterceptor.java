@@ -8,19 +8,23 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.songlin.annotation.Access;
 import cn.songlin.entity.UserAccount;
 import cn.songlin.entity.UserLog;
+import cn.songlin.mapper.UserLogMapper;
 import cn.songlin.utils.StringUtils;
 
 // 自定义一个权限拦截器, 继承HandlerInterceptorAdapter类
 public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
+	
 
 	// 在调用方法之前执行拦截
 	@Override
@@ -34,9 +38,8 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 		UserAccount userAccount = (UserAccount) request.getSession().getAttribute("sessionId");
 
 		BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
-		// UserLogMapper userLogMapper = (UserLogMapper)
-		// factory.getBean("userLogMapper");
-		AmqpTemplate template = (AmqpTemplate) factory.getBean("rabbitTemplate");
+		UserLogMapper userLogMapper = (UserLogMapper) factory.getBean("userLogMapper");
+		AmqpTemplate template = (AmqpTemplate)factory.getBean("rabbitTemplate");;
 		// 访问足迹记录
 		UserLog userLog = new UserLog();
 		userLog.setLogDataTime(new Date());
