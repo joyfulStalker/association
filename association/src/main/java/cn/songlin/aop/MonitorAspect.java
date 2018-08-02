@@ -7,11 +7,10 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
- * 代理所有API的统一返回
- * 
- * @author BENJAMIN
- *
+ * @author liusonglin
+ * @date 2018年8月1日
  */
+
 @Component
 @Aspect
 @Order(5)
