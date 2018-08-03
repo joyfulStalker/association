@@ -6,10 +6,15 @@
 	<artifactId>rabbitmqReceiver</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<!-- Spring boot的项目必须要将parent设置为spring boot的parent， 该parent包含了大量默认的配置，大大简化了我们的开发。 -->
+	<!-- <parent> -->
+	<!-- <groupId>org.springframework.boot</groupId> -->
+	<!-- <artifactId>spring-boot-starter-parent</artifactId> -->
+	<!-- <version>2.0.3.RELEASE</version> -->
+	<!-- </parent> -->
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.3.RELEASE</version>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-parent</artifactId>
+		<version>Finchley.RELEASE</version>
 	</parent>
 	<dependencies>
 		<!-- springweb -->
@@ -56,6 +61,11 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>1.2.9</version>
+		</dependency>
+		<!-- config -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
 	</dependencies>
 </project>

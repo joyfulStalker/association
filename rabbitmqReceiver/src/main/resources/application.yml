@@ -1,17 +1,23 @@
 server:
   port: 8091
 spring:
+  cloud:
+      config:
+        uri:
+        - localhost:8888
+        name: asso
+        profile: dev
   rabbitmq:
-    host: 192.168.20.100
-    virtual-host: /asso
-    port: 5672
-    username: asso
-    password: asso
+    host: ${rmq.asso.host}
+    virtual-host: ${rmq.asso.virtual-host}
+    port: ${rmq.asso.port}
+    username: ${rmq.asso.username}
+    password: ${rmq.asso.password}
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/community?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
-    username: root
-    password: root
+    driver-class-name: ${db.asso.driverclass}
+    url: ${db.asso.url}
+    username: ${db.asso.name}
+    password: ${db.asso.pwd}
 logging:
   level:
     cn.songlin.mapper : debug
