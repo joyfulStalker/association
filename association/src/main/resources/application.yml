@@ -34,3 +34,7 @@ mybatis:
 logging:
   level:
     cn.songlin.mapper : debug
+mytest: 
+  name: zhangsan
+  pwd: 123
+zhangsan: hh

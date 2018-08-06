@@ -1,9 +1,14 @@
 package cn.songlin.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -37,13 +42,17 @@ public class UserAccountController {
 
 	@Autowired
 	private SensitiveWordsService sensitiveWordsService;
+	
+	@Autowired
+	private Environment env;
 
 	@PostMapping("register")
 	@Monitor
 	@ApiOperation(value = "用户注册")
 	public ResponseEntity<Void> register(UserAccountDto userAccountDto) {
 		// 过滤敏感词 含有敏感词禁止写入
-		String nickName = sensitiveWordsService.useWords(userAccountDto.getNickName(), ConstantUtil.SENSITIVEWORD_DEALER_CODE);
+		String nickName = sensitiveWordsService.useWords(userAccountDto.getNickName(),
+				ConstantUtil.SENSITIVEWORD_DEALER_CODE);
 		String name = sensitiveWordsService.useWords(userAccountDto.getName(), ConstantUtil.SENSITIVEWORD_DEALER_CODE);
 		if (!StringUtils.isEmpty(nickName) || !StringUtils.isEmpty(name)) {
 			throw new CommunityException().HIT_SENSITIVEWORD;// 含有敏感词禁止写入，提示请遵守社群规范
@@ -67,4 +76,20 @@ public class UserAccountController {
 		return new ResponseEntity<>("0", HttpStatus.OK);
 	}
 
+	@PostMapping("testProp")
+	@Monitor
+	@ApiOperation(value = "测试system")
+	public ResponseEntity<Map> testProp() {
+		Map<String,Object> map = new HashMap<>();
+		
+		Properties properties = System.getProperties();
+		Map<String, String> getenv = System.getenv();
+		String property = env.getProperty("mytest.name");
+		String property1 = env.getProperty(property);
+		map.put("prop", properties);
+		map.put("env", getenv);
+		map.put("property", property);
+		map.put("property1", property1);
+		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
 }
