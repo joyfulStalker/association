@@ -28,10 +28,10 @@
   </resultMap>
   
   <select id="checkUserName" resultType="int">
-  	SELECT count(1) FROM community.user_account where name = #{name} or nick_name = #{name};
+  	SELECT count(1) FROM user_account where name = #{name} or nick_name = #{name};
   </select>
   
   <select id="login" resultMap="BaseResultMap">
-  	SELECT * FROM community.user_account where password = #{userLoginDto.password} and (name = #{userLoginDto.userName} or nick_name = #{userLoginDto.userName} or mobile_phone = #{userLoginDto.userName});
+  	SELECT * FROM user_account where password = #{userLoginDto.password} and (name = #{userLoginDto.userName} or nick_name = #{userLoginDto.userName} or mobile_phone = #{userLoginDto.userName});
   </select>
 </mapper>
