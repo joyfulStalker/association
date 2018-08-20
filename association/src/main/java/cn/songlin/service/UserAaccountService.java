@@ -11,7 +11,7 @@ import cn.songlin.dto.UserLoginDto;
 import cn.songlin.entity.UserAccount;
 import cn.songlin.exception.CommunityException;
 import cn.songlin.mapper.UserAccountMapper;
-import cn.songlin.utils.StringUtils;
+import cn.songlin.utils.MyStringUtils;
 import cn.songlin.utils.ValidateUtil;
 
 @Service
@@ -44,8 +44,8 @@ public class UserAaccountService {
 		BeanUtil.copyProperties(userAccountDto, record);
 		record.setCreateDate(new Date());// 创建时间
 		record.setRegisterDate(record.getCreateDate());// 注册时间
-		record.setUserId(StringUtils.getUUID());// 设置一个UUID用于用户id
-		record.setPassword(StringUtils.getMd5(record.getPassword()));// 用户密码加密
+		record.setUserId(MyStringUtils.getUUID());// 设置一个UUID用于用户id
+		record.setPassword(MyStringUtils.getMd5(record.getPassword()));// 用户密码加密
 		record.setUserType((byte) 1);// 1：普通用户 2：媒体用户 3：官方用户
 		mapper.insertSelective(record);
 	}

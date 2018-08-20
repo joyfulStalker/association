@@ -25,6 +25,7 @@ import cn.songlin.entity.UserAccount;
 import cn.songlin.exception.CommunityException;
 import cn.songlin.service.SensitiveWordsService;
 import cn.songlin.service.UserAaccountService;
+import cn.songlin.utils.MyStringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -90,6 +91,22 @@ public class UserAccountController {
 		map.put("env", getenv);
 		map.put("property", property);
 		map.put("property1", property1);
+		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
+	
+	@PostMapping("testMyUtil")
+	@Monitor
+	@ApiOperation(value = "测试我的工具类")
+	public ResponseEntity<Map> testMyUtil() {
+		Map<String,Object> map = new HashMap<>();
+		String name = "name";
+		String phone = "15206668888";
+		String n = MyStringUtils.dealSensitivePhone(name, phone);
+		map.put("不为空", n);
+		name = null;
+		n = MyStringUtils.dealSensitivePhone(name, phone);
+		n = MyStringUtils.dealSensitivePhone(null, phone);
+		map.put("为空", n);
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 }

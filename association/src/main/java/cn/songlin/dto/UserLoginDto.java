@@ -1,6 +1,6 @@
 package cn.songlin.dto;
 
-import cn.songlin.utils.StringUtils;
+import cn.songlin.utils.MyStringUtils;
 
 public class UserLoginDto {
 
@@ -18,7 +18,7 @@ public class UserLoginDto {
 
 	public String getPassword() {
 		// MD5加密
-		return StringUtils.getMd5(password);
+		return MyStringUtils.getMd5(password);
 	}
 
 	public void setPassword(String password) {

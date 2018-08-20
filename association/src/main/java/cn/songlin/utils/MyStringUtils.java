@@ -2,33 +2,17 @@ package cn.songlin.utils;
 
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.util.DigestUtils;
+import org.springframework.util.StringUtils;
 
-public class StringUtils {
+/**
+ * 一些常用的string工具
+ * 
+ * @author liusonglin
+ * @date 2018年8月20日
+ */
 
-	private static final String UNKNOWN = "unknown";
-
-	/**
-	 * 获取客户端真实ip
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public static String getClientIp(HttpServletRequest request) {
-		String ip = request.getHeader("x-forwarded-for");
-		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-			ip = request.getHeader("Proxy-Client-IP");
-		}
-		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-			ip = request.getHeader("WL-Proxy-Client-IP");
-		}
-		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-			ip = request.getRemoteAddr();
-		}
-		return ip;
-	}
+public class MyStringUtils {
 
 	/**
 	 * 获取UUID
@@ -62,14 +46,14 @@ public class StringUtils {
 
 	private static final Integer SHORT_UUID_LEN = 8;
 
-	
 	/**
-	* 生成UUID
-	* @author liusonglin
-	* @date 2018年6月4日
-	* @return
-	*/
-		
+	 * 生成UUID
+	 * 
+	 * @author liusonglin
+	 * @date 2018年6月4日
+	 * @return
+	 */
+
 	public static String generateShortUuid() {
 		StringBuffer shortBuffer = new StringBuffer();
 		String uuid = UUID.randomUUID().toString().replace("-", "");
@@ -82,4 +66,16 @@ public class StringUtils {
 
 	}
 
+	/**
+	 * 手机号脱敏处理
+	 * 
+	 * @author liusonglin
+	 * @date 2018年8月20日
+	 * @param phoneNum
+	 * @return
+	 */
+
+	public static String dealSensitivePhone(String name, String phoneNum) {
+		return StringUtils.isEmpty(name) == false ? name : new StringBuilder(phoneNum).replace(3, 7, "****").toString();
+	}
 }
