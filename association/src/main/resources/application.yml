@@ -2,12 +2,14 @@ server:
   port: 8090
 #配置中心读取配置文件
 spring:
-  cloud:
-    config:
-      uri:
-      - localhost:8888
-      name: asso
-      profile: dev
+#  application:
+#    name: server-config
+#  cloud:
+#    config:
+#      uri:
+#      - 192.168.20.100:8888
+#      name: asso
+#      profile: dev
   aop: 
     auto: true
   rabbitmq:
