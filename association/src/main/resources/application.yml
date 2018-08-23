@@ -40,3 +40,21 @@ mytest:
   name: zhangsan
   pwd: 123
 zhangsan: hh
+multi: 
+  datasource:
+    custom: multi,community
+    default:
+      driverclass: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://192.168.20.100:3306/community?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+      username: root
+      password: root
+    multi: 
+      driverclass: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://192.168.20.100:3306/multi?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+      username: root
+      password: root
+    community: 
+      driverclass: ${db.asso.driverclass}
+      url: ${db.asso.url}
+      username: ${db.asso.name}
+      password: root
